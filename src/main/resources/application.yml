@@ -1,0 +1,13 @@
+server.port: 3978
+microsoft.app:
+    id: 7790c7db-f1df-42dd-9f43-43292fad1e18
+    password: 4QiV0jngwCDfGZ3K5RBcaBj
+logging.level:
+    org: DEBUG
+#    io: DEBUG
+
+spring:
+    cache:
+        cache-names: authCache
+        caffeine:
+            spec: expireAfterWrite=3000s
