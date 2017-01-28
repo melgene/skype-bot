@@ -25,6 +25,8 @@ class AuthService(val microsoftConfig: MicrosoftConfig) {
 		const val AUTH_ENDPOINT = "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token"
 	}
 
+	// This will cache error result for the ttl period
+	// https://jira.spring.io/browse/SPR-14235
 	@Cacheable("authCache")
 	fun authenticate(): Mono<AuthResponse> {
 		val client = WebClient.create(ReactorClientHttpConnector())

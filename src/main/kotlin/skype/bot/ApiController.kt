@@ -8,10 +8,7 @@ import skype.bot.entity.message.ChatMessage
 import skype.bot.entity.message.ConversationUpdateMessage
 import skype.bot.entity.message.PingMessage
 import skype.bot.entity.message.TextMessage
-import skype.bot.service.AuthService
-import skype.bot.service.ConnectorService
-import skype.bot.service.ConversationConfig
-import skype.bot.service.ConversationMessage
+import skype.bot.service.*
 
 @RestController
 @RequestMapping("/api")
@@ -40,7 +37,7 @@ class ApiController(val authService: AuthService, val connectorService: Connecto
 		}
 	}
 
-	private fun handleTextMessage(msg: TextMessage): Mono<Void> {
+	private fun handleTextMessage(msg: TextMessage): Mono<ConversationResponse> {
 		return authService.authenticate().flatMap { authResponse ->
 			val response = ConversationMessage("You sent message: '${msg.text}'",
 					from = msg.recipient,
@@ -56,7 +53,7 @@ class ApiController(val authService: AuthService, val connectorService: Connecto
 			println("RESPONDING TO :" + msg)
 			println("url: " + config.serviceUrl)
 			connectorService.replyToConversation(response, config)
-		}.then()
+		}.next()
 	}
 
 }
